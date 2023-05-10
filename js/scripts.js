@@ -14,12 +14,6 @@ let pokemonRepository = (function() {
         return pokemonList;
     }
 
-    function showDetails(pokemon) {
-        loadDetails(pokemon).then(function() {
-            console.log(pokemon);
-        });
-    }
-
     function addListItem(pokemon) {
         let pokemonList = document.querySelector('.pokemon-list');
         let listPokemon = document.createElement('li');
@@ -62,12 +56,54 @@ let pokemonRepository = (function() {
         });
     }
 
+    function showDetails(pokemon) {
+        loadDetails(pokemon).then(function() {
+            showModal(pokemon);
+        });
+    }
+
+    function showModal(pokemon) {
+        pokemonRepository.loadDetails(pokemon).then(function(){
+
+            let modalContainer = document.querySelector('#modal-container');
+
+            let modalTitle = document.querySelector('.modal-title');
+            modalTitle.innerText = pokemon.name;
+
+            let modalClose = document.querySelector('.modal-close');
+            let modalCloseElement = document.createElement('button');
+            modalCloseElement.innerText = 'close';
+            modalCloseElement.addEventListener('click', hideModal);
+            modalClose.innerHTML = '';
+            modalClose.append(modalCloseElement);
+
+            let pokemonHeight = document.querySelector('.pokemon-height');
+            pokemonHeight.innerText = 'Height:' + ' ' + pokemon.height;
+
+            let imageContainer = document.querySelector('#image-container');
+            let pokemonImage = document.createElement('img');
+            pokemonImage.src = pokemon.imageUrl;
+            pokemonImage.classList.add('pokemon-image');
+            imageContainer.innerHTML = '';
+            imageContainer.append(pokemonImage);
+
+            modalContainer.classList.add('is-visible');
+        })
+    }
+
+    function hideModal() {
+        let modalContainer = document.querySelector('#modal-container');
+        modalContainer.classList.remove('is-visible');
+    }
+
     return {
         add: add,
         getAll: getAll,
         addListItem: addListItem,
         loadList: loadList,
-        loadDetails: loadDetails
+        loadDetails: loadDetails,
+        showDetails: showDetails,
+        showModal: showDetails,
     };
 })();
 
@@ -76,3 +112,4 @@ pokemonRepository.loadList().then(function(){
         pokemonRepository.addListItem(pokemon);
      });
 });
+
