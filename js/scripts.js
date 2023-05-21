@@ -88,7 +88,6 @@ let pokemonRepository = (function() {
             let modalTitle = document.querySelector('.modal-title');
             modalTitle.innerText = pokemon.name;
 
-
             let pokemonHeight = document.querySelector('.pokemon-height');
             pokemonHeight.innerText = 'Height:' + ' ' + pokemon.height;
 
